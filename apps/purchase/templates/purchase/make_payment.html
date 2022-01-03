@@ -1,0 +1,62 @@
+{% extends "core/base.html" %}
+
+{% block title %}Purchase | {% endblock %}
+{% block content %}
+
+
+{% if error %}
+<div class="alert alert-danger" role="alert">
+    {{ error }}
+</div>
+{% endif %}
+<div class="box">             
+    <nav class="purchase-nav">
+        <a href="{% url 'createpurchase' %}" class="navbar-item">
+            <i class="material-icons navbar-icon">add</i>
+            <span class="navbar-text">Create</span>
+        </a>
+        <a href="{% url 'currentpurchases' %}" class="navbar-item ">
+            <i class="material-icons navbar-icon">local_shipping</i>
+            <span class="navbar-text">Current</span>
+        </a>
+        <a href="{% url 'receivedpurchases' %}" class="navbar-item">
+            <i class="material-icons navbar-icon">check</i>
+            <span class="navbar-text">Received</span>
+        </a>
+    </nav>
+    <br>
+    <h5>Make a purchase for: GH {{ payment.amount }} </h5>
+    <form>
+        <script src="https://js.paystack.co/v1/inline.js"></script> 
+        <button class="btn btn-large btn-success" onclick="payWithPayStack()" id="django-paystack-button">Make Payment</button>   
+    </form>
+</div>   
+<script>
+    function payWithPayStack(){
+        let currency = "GHS";
+        let plan ="";
+        let ref = "{{ purchase.ref }}"
+        let obj = {
+            key: "{{ paystack_publick_key }}",
+            email: "{{ purchase.email }}",
+            amount: "{{ purchase.amount }}",
+            ref : ref,
+            callback: function(response){
+                window.location.href = "{% url 'verify-payment' purchase.ref %}";
+            }
+        }
+
+        if (Boolean(currency)){
+            obj.currency = currency.toUpperCase()
+        }
+        if (Boolean(plan)){
+            obj.plan = plan;
+        }
+        var handler = PaystackPop.setup(obj);
+        handler.openIframe(); 
+    }
+</script> 
+
+
+
+{% endblock %}

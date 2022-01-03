@@ -1,0 +1,41 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Edit product | {% endblock %}
+
+{% block content %}
+<div class="hero is-white is-fullheight">
+    <div class="hero-body">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="columns is-5-tablet is-4-desktop is-3-widescreen">
+
+                    <h1 class="title has-text-centered">Edit product</h1>
+                    <div class="form-group">
+                        <form method="POST" action="." class="box" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <br>
+                            <div class="field">
+                                <div class="control">
+                                    <button class="button is-success is-uppercase" type="submit">
+                                        Submit
+                                    </button>
+                                </div>    
+                            </div>
+                        </form>
+                                <button type="button" class="btn btn-block btn-danger" onclick="$('#delete').click()">Delete</button>
+                    
+                        <form style='display: none;' method="POST" action="{% url 'delete_product' product.id %}">
+                            {% csrf_token %}
+                            <button id="delete" type="submit">Delete</button>
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>  
+    </div>    
+</div>  
+   
+{% endblock %}

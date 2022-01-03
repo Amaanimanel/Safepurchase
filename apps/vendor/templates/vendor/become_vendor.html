@@ -1,0 +1,97 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Become vendor | {% endblock %}
+
+{% block content %}
+<div class="hero is-white is-fullheight">
+    <div class="hero-body">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="columns is-5-tablet is-4-desktop is-3-widescreen">
+
+                    <h1 class="title has-text-centered">Become a vendor</h1>
+                    <form method="POST" action="." class="box">
+                        {% csrf_token %}
+
+                        {% if form.non_field_errors %}
+                        <div class="notification is-info">
+                            {{ form.non_field_errors}}
+                        </div>
+                        {% endif %}
+        
+                        {% if form.errors %}
+                        <div class="notification is-info">
+                            <ul>
+                                {% for field in form %}
+                                    {% for error in field.errors %}
+                                        <li><strong>{{ field.label }}: </strong>{{ error }}</li>
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+
+                        <div class="field">
+                            <label for="" class="label">Username</label>
+                            <div class="control has-icons-left">
+                                {{ form.username }}
+                                <span class="icon is-small is-left">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                            </div>
+                        </div>
+    
+                        
+                        <div class="field">
+                            <label for="" class="label">Email</label>
+                            <div class="control has-icons-left">
+                                {{ form.email }}
+                                <span class="icon is-small is-left">
+                                    <i class="fa fa-envelope"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label for="" class="label">Password</label>
+                            <div class="control has-icons-left">
+                                {{ form.password1}}
+                                <span class="icon is-small is-left">
+                                    <i class="fa fa-lock"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label for="" class="label">Confirm password</label>
+                            <div class="control has-icons-left">
+                                {{ form.password2 }}
+                                <span class="icon is-small is-left">
+                                    <i class="fa fa-lock"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <button class="button is-success is-uppercase" type="submit">
+                                Sign Up
+                            </button>
+                        </div>
+
+                    </form>
+                        
+                </div>
+
+            </div>
+        </div>    
+    </div>    
+</div>        
+    <hr>
+
+    <h2 class="title has-text-centered">Already have an account?
+
+    <a href="{% url 'login' %} "><span class="tag is-info">Log in</span></a>
+    
+    </h2>
+    
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+
+            {% if purchases %}
+                 <h1 class="title has-text-centered">{{ purchases.count }} Current Purchase{{ purchases.count|pluralize }}</h1>
+            {% else %}
+                           <h1>Current Purchase</h1>
+            {% endif %}
+
+            <nav class="purchase-nav">
+                <a href="{% url 'createpurchase' %}" class="navbar-item">
+                    <i class="material-icons navbar-icon">add</i>
+                    <span class="navbar-text">Create</span>
+                </a>
+                <a href="{% url 'currentpurchases' %}" class="navbar-item ">
+                    <i class="material-icons navbar-icon">local_shipping</i>
+                    <span class="navbar-text">Current</span>
+                </a>
+                <a href="{% url 'receivedpurchases' %}" class="navbar-item">
+                    <i class="material-icons navbar-icon">check</i>
+                    <span class="navbar-text">Received</span>
+                </a>
+            </nav>     
+
+            <div class="box">
+        
+                {% if purchases %}
+                    <table class="table is-fullwidth has-background-info-light">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Price</th>
+                                <th>Purchase Date</th>
+                            </tr>
+                        </thead>
+        
+                        <tbody>
+                            {% for purchase in purchases %}
+                                <tr>
+                                    <td><a href="{% url 'viewpurchase' purchase.id %}">{{ purchase.title }}</a></td>
+                                    <td>{% if purchase.amount %} ₵{{ purchase.amount}}{% endif %}</td>
+                                    <td>{{ purchase.created|date:'l jS F Y h:i A' }}</td>
+                                     
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                <div class="text-center">
+                    <h2>Looks like you don't have any Purchases! Create a new purchase.</h2>
+                <br>
+                <a role="button" class="btn btn-block btn-primary" href="{% url 'createpurchase' %}">New Purchase</a>
+                </div>
+                {% endif %}
+            </div>
+
+{% endblock %}

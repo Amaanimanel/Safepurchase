@@ -1,0 +1,74 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Purchase | {% endblock %}
+
+{% block content %}
+    <h1 class="title has-text-centered">Purchases</h1>
+
+    {% if yourpurchase %}
+    <div class="box">
+            {% for yourpurchase in yourpurchases %}
+                <div class="{% if order.fully_paid %}has-background-success-light{% else %}has-background-info-light{% endif %} mb-2 p-4">
+                    <div class="columns is-multiline">
+
+                        <div class="column is-6">
+                            <h3 class="is-size-4">#{{ yourpurchase.id }} - {{ yourpurchase.yourmomo }}  bought from {{ yourpurchase.sellermomo }}</h3>
+                        </div>
+    
+                        <div class="column is-12">
+                            <b>Item:</b> {{ yourpurchase.title }}<br>
+                            <b>Address:</b> {{ yourpurchase.yourlocation }}<br> 
+                            <b>Purchase Date:</b> {{ yourpurchase.created }}<br>
+                        </div>
+
+                    </div>
+                </div>
+            {% endfor %}
+    {% else %}
+        <div class="box">             
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+            <div class="registration-form"> 
+                <div class="form-icon">
+                    <span><i class="fas fa-dollar-sign"></i></span>
+                </div>
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" name="title" class="form-control" id="title" required>
+                </div>
+                  <div class="form-group">
+                    <label for="price">Price in GH₵</label>
+                    <input type="number" name="price" class="form-control" id="price" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="seller">Seller</label>
+                    <input type="text" name="seller" class="form-control" id="seller" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="sellermomo">Seller's momo</label>
+                    <input type="number" name="sellermomo" class="form-control" id="sellermomo" required>
+                </div> 
+
+                <div class="form-group">
+                    <label for="sellermomo">Your momo</label>
+                    <input type="number" name="yourmomo" class="form-control" id="yourmomo" required>
+                </div> 
+
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" name="location" class="form-control" id="yourlocation" required>
+                </div>
+
+                <div class="form-group">
+                    <button type="button" class="btn btn-block create-purchase">Create Purchase</button>
+                </div>
+            </div>    
+            </form>
+        </div>    
+    </div>
+
+    {% endif %}
+{% endblock %}
+
